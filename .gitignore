@@ -1,0 +1,17 @@
+# Dipendenze
+node_modules/
+
+# File caricati dagli utenti (la cartella resta grazie a .gitkeep)
+server/uploads/*
+!server/uploads/.gitkeep
+
+# Build e cache di Angular
+client/dist/
+client/.angular/
+
+# Editor e sistema operativo
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log
