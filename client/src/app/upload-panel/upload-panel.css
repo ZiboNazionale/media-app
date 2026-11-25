@@ -1,0 +1,121 @@
+.panel {
+  display: grid;
+  gap: 1rem;
+}
+
+.dropzone {
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  padding: 2rem 1rem;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.dropzone:hover,
+.dropzone.dragging {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.dropzone:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.dropzone input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.icon {
+  font-size: 1.75rem;
+  color: var(--accent);
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.queue-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.queue-head h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.queue {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.queue li {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.queue img,
+.queue video {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 6px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+.info {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.name {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meta {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+li.done .meta {
+  color: var(--ok);
+}
+
+li.error .meta {
+  color: var(--danger);
+}
+
+progress {
+  width: 100%;
+  height: 6px;
+  accent-color: var(--accent);
+}
+
+li.error progress {
+  display: none;
+}

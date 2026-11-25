@@ -1,0 +1,68 @@
+<section>
+  <div class="toolbar">
+    <h2>Galleria</h2>
+    <div class="filters" role="group" aria-label="Filtra per tipo">
+      @for (f of filters; track f.value) {
+        <button type="button" [class.active]="filter() === f.value" [attr.aria-pressed]="filter() === f.value" (click)="filter.set(f.value)">
+          {{ f.label }} <span class="badge">{{ count(f.value) }}</span>
+        </button>
+      }
+    </div>
+  </div>
+
+  @if (media.error(); as error) {
+    <div class="message error">
+      <p>{{ error }}</p>
+      <button type="button" (click)="media.loadFiles()">Riprova</button>
+    </div>
+  } @else if (media.loading() && !media.files().length) {
+    <p class="message">Caricamento della galleria…</p>
+  } @else if (!visible().length) {
+    <p class="message">
+      @if (media.files().length) { Nessun file di questo tipo. } @else { Ancora nessun file: caricane uno qui sopra! }
+    </p>
+  } @else {
+    <ul class="grid">
+      @for (file of visible(); track file.name) {
+        <li>
+          <button type="button" class="tile" (click)="open(file)" [attr.aria-label]="'Apri ' + file.name">
+            @if (file.type === 'video') {
+              <video [src]="file.url + '#t=0.1'" preload="metadata" muted></video>
+              <span class="play" aria-hidden="true">▶</span>
+            } @else {
+              <img [src]="file.url" [alt]="file.name" loading="lazy" />
+            }
+            <span class="caption">{{ file.uploadedAt | date: 'd MMM y, HH:mm' }} · {{ formatSize(file.size) }}</span>
+          </button>
+        </li>
+      }
+    </ul>
+  }
+</section>
+
+<dialog #viewer class="viewer" (close)="selected.set(null)" (click)="$event.target === viewer && close()">
+  @if (selected(); as file) {
+    <div class="viewer-body">
+      <div class="media">
+        @if (file.type === 'video') {
+          <video [src]="file.url" controls autoplay></video>
+        } @else {
+          <img [src]="file.url" [alt]="file.name" />
+        }
+      </div>
+      <div class="viewer-bar">
+        <span class="viewer-info">{{ file.name }} · {{ formatSize(file.size) }}</span>
+        <div class="viewer-actions">
+          <button type="button" (click)="step(-1)" aria-label="Precedente">‹</button>
+          <button type="button" (click)="step(1)" aria-label="Successivo">›</button>
+          <a [href]="file.url" [download]="file.name">Scarica</a>
+          <button type="button" class="danger" (click)="remove(file)">Elimina</button>
+          <button type="button" (click)="close()" aria-label="Chiudi">✕</button>
+        </div>
+      </div>
+      @if (deleteError(); as error) {
+        <p class="viewer-error">{{ error }}</p>
+      }
+    </div>
+  }
+</dialog>
